@@ -15,11 +15,11 @@ package SOLID;
 // dependecy inversion tries to get rid of this potential for bugs,
 // by abstracting away the specific implementation details for high level and low level
 // modules. In doing so, we essentially create a shield (interface?) which protects
-// the high level code from low level changes
+// the high level code from low level changes, vice versa 
 
 // similarly, when we do create these interfaces to make abstractions,
 // the abstracctions shouldn't depend on the details of how they'll be used.
-// Instrad the details of the abstraction should be based on the purpose of the abstraction.
+// Instrad the details of a class should be based on the abstraction.
 // if we were todesign an abstraction based on details, we lose part of the abstraction
 // simply by basing it off of some details. Instrad, our abstraction should be abstract! 
 // It shouldn't depend on specific details, the details should depend on it
@@ -123,10 +123,25 @@ class Mgr extends employee implements manager{
     }
 }
 
-// now our business model depends on the abstracted promises made by our interfaces
-// they dictate the return behaviour and methods of our classes. So we can change
-// the implementation of a classes method and test it, without breaking the entire codebase
-// additionally it would not be hard to add new types of employees we could also do something similar for db and inv
+// now although we didn't change too much, what we've done is pretty well say
+// that the businessModel2 can blindly trust that dev will have the ability to code()
+// a well as fixStuff(), the businesss model doesn't directly care about HOW 
+// it does that, but it knows that the code will be produced, or stuff will be fixed 
+
+// similarly for the manager, we've abstracted away the details regarding the implementation
+// of mange()/lead() for the businessModel, it's unaware - but it's guranteed by
+// the interface that we have those capabilities to mange or lead
+
+// the good thing about this is that since we've taken away the details, and our 
+// businesss model now depends on an abstraction instead, we can freely change 
+// and test the interfaces without messing up the business model, ie if we wanted
+// to change Dev's code implementation, we could - then we could test it and the 
+// businesss model won't be affected
+
+// this demonstrates the big idea behind dependency inversion, we make modular 
+// pieces, that rely on abstractions (guarantees of something specific, without
+// caring about the way it's made or create, just that we receive it) regardless
+// of whether thery're high or low level components
 
 public class DependencyInversion {
     

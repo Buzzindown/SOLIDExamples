@@ -5,6 +5,23 @@ package SOLID;
 // doesn't interrupt the behaviour of the program || break anything
 // let's make an example of something that does break liskov's rule
 
+// the main thing that get's any piece of code into trouble with Liskov-sub
+// is overriding some functionality after extending a parent class, in such a way
+// that it is more specific, or more restrictive than the parent class
+
+// this is becase, if we consider that case, when we swap the classes,
+// where the parent may have accepted a broad range of inputs, since our 
+// subclasss (who's now in the parents position) was more specific in it's
+// input, some of the cases where the parent worked, the child will not 
+
+// to avoid this, we may be as restrictive or less in our children,
+// but not more
+
+// sometimes this will mean restructuring the hierarchy to create
+// more abstract or even more specific parent classses
+
+// let's say that we start off with a fairly generic automobile class
+
 class automobile{
 
     private int gasLevel;
@@ -34,6 +51,8 @@ class automobile{
 
 }
 
+// we want to make a tesla, it's an automobile too right?!
+
 class tesla extends automobile{
 
     int batteryLevel;
@@ -43,7 +62,7 @@ class tesla extends automobile{
         batteryLevel = battery;
 
     }
-
+    // overrides
     public String startEngine(){
         return "Can't start a car with no engine";
     }
@@ -62,11 +81,16 @@ class tesla extends automobile{
 // it lacks much of the basic functionality described in its parent class,
 // because it lacks an engine. So if we were to try and start the engine 
 // on a tesla (if we had swapped it with an automobile object) we would
-// run into some issues. A solution to this might be to add a level to the hierarchy
+// run into some issues.
+
+// not to mention, because we extended the automobile, we're able to ccheck the gasLevel
+// on the tesla, which is terrible, 
+
+// A solution to this might be to add a level to the hierarchy
 // and havve automobile, then two sub classes for EV and gas vehicles
 
 class newAutomobile{
-    // would have tires, odomoter, whatever
+    // would have tires, odomoter, whatever actual GENERIC stuff that a car has 
     private int odometer;
     private int numTires;
 
@@ -88,6 +112,10 @@ class newAutomobile{
         return numTires;
     }
 }
+
+
+// ev can now safely extend it, because we will maintain all the functionality
+// of our parent class 
 
 class ElectricVehicle extends newAutomobile{
 
@@ -123,6 +151,7 @@ class ElectricVehicle extends newAutomobile{
     }
 }
 
+// gv is better designed now and similarily to ev, will get tires, odo from the parent
 class gasVehicle extends newAutomobile{
 
     private int gasLevel;
@@ -149,6 +178,14 @@ class gasVehicle extends newAutomobile{
         return gasLevel;
     }
 }
+
+// now if we wanted to make a tesla by extending our ev class we would be safe to do so
+// and our design would be more open to future 
+
+// this is another reason it's important to consider the future, maybe we would take it one
+// level higher, in case we figure there might be personal flying vehicles
+// at that point though, it might be overkill as we end up with a huge
+// chain of dependencies 
 
 
 

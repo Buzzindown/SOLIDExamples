@@ -75,7 +75,7 @@ class bankAccount {
 
 // I think this is an improvment although this is flawed in the sense
 // that betterbankAccount depemds on 4 other classes. This is bad
-// for dependency-inversion however we could definitely abstract it out
+// for coupling reasons however we could definitely abstract it out
 // nonetheless, I think this is an okay examples of bad SRP vs better SRP
 
 class betterBankAccount{
@@ -101,6 +101,11 @@ class betterBankAccount{
 
 }
 
+// perhaps the betterBankAccount hooks up to a db and provides a link for the account + balance,
+// at which point the only reason to change would be if something changed with the db, 
+// we know we need an account num, bal, pin, and uid for making a connection to a theoretical (and very unsecure)
+// bank, so their implementation's can change on their own
+
 class userIdentification{
 
     private int uid;
@@ -118,6 +123,8 @@ class userIdentification{
     }
 
 }
+
+// uid only changes if the implementation of a uid change
 
 class personalIdentification{
 
@@ -141,6 +148,13 @@ class personalIdentification{
 
 }
 
+// pin only changes if the implementation of pin changes,
+// ie maybe we only allowed numeric pins, but someone decides
+// we need alphanumeric pins, then we would change this 
+// !! we would revise our bank class to receive a string instead that we 
+// could parse out or do whatever with !! but we would have that thought when making
+// the bank class, because that's smart
+
 class accountNumber{
 
     private int accountNum;
@@ -158,6 +172,9 @@ class accountNumber{
     }
 
 }
+
+// account num only  changes if we want to change the format of 
+// an accout number 
 
 class accountBalance{
 
@@ -184,6 +201,14 @@ class accountBalance{
     }
 
 }
+
+// balance only changes if we want to change the format of a balance
+// ie mmaybe we want it to be a coujnt of pennies, or something 
+// maybe we would take deposit or balance into their own classes
+// but that seems like overkill - if we figured they would ever
+// want to deposit stuff differently then maybe we would do that
+// ie if there was a new form of cheque or something, we could
+// extend a deposit class to account for that 
 
 
 class SRP {
